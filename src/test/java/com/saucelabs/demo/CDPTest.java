@@ -7,6 +7,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
@@ -14,6 +16,7 @@ import org.openqa.selenium.devtools.v112.network.Network;
 import org.openqa.selenium.devtools.v112.network.model.BlockedReason;
 import org.openqa.selenium.devtools.v112.network.model.Headers;
 import org.openqa.selenium.devtools.v112.network.model.ResourceType;
+import org.openqa.selenium.devtools.v112.emulation.Emulation;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +24,7 @@ import java.nio.file.Files;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class CDPTest {
 	private ChromeDriver chromeDriver;
@@ -134,7 +138,31 @@ public class CDPTest {
 		chromeDriver.get("https://everytimezone.com/");
 
 		// Thread.sleep only meant for demo purposes!
-		Thread.sleep(10000);
+
+	}
+
+	@Test
+	public void CDPTest1() throws InterruptedException {
+		//devTools.createSession();
+
+		Map<String, Object> coordinates = new HashMap<String, Object>();
+		coordinates.put("latitude",40);
+		coordinates.put("longitude",3);
+		coordinates.put("accuracy",1);
+
+		devTools.send(Emulation.setGeolocationOverride(Optional.of(40),Optional.of(3),Optional.of(1)));
+//		chromeDriver.executeCdpCommand("Emulation.setGeolocationOverride", coordinates);
+//		chromeDriver.get("https://google.com/");
+//		chromeDriver.findElement(By.name("q")).sendKeys("netflix", Keys.ENTER);
+		chromeDriver.get("https://my-location.org/");
+		Thread.sleep(100000);
+//		chromeDriver.findElements(By.cssSelector(".LC20lb")).get(0).click();
+
+//		String Tilte = chromeDriver.getTitle();
+//		System.out.println(Tilte);
+
+
+
 	}
 
 	@AfterEach
